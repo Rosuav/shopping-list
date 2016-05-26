@@ -50,4 +50,21 @@ app.delete('/items/:id', jsonParser, function(req, res) {
 	res.status(404).json({error: "No item with that id found"});
 });
 
+app.put('/items/:id', jsonParser, function(req, res) {
+	//What happens if req.body.id doesn't match req.params.id??
+	if (!req.body) {
+		return res.sendStatus(400);
+	}
+	for (var i=0; i<storage.items.length; ++i) {
+		if (storage.items[i].id == req.params.id) {
+			storage.items[i].name = req.body.name;
+			res.status(204).end();
+			return;
+		}
+	}
+
+	var item = storage.add(req.body.name);
+	res.status(201).json(item);
+});
+
 app.listen(process.env.PORT || 8800);
