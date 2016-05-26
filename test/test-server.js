@@ -95,5 +95,26 @@ describe('Shopping List', function() {
                 done();
             });
     });
-    it('should delete an item on delete');
+
+    it('should delete an item on DELETE', function(done) {
+        chai.request(app)
+            .delete('/items/142857')
+            .end(function(err, res) {
+                should.equal(err, null);
+                res.should.have.status(204);
+                storage.items.should.be.a('array');
+                storage.items.should.have.length(4);
+                done();
+            });
+    });
+    it('should 404 on DELETE with duff id', function(done) {
+        chai.request(app)
+            .delete('/items/314159')
+            .end(function(err, res) {
+                err.should.have.status(404);
+                storage.items.should.be.a('array');
+                storage.items.should.have.length(4);
+                done();
+            });
+    });
 });
