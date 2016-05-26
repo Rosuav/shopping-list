@@ -40,7 +40,6 @@ app.delete('/items/:id', jsonParser, function(req, res) {
 		return res.sendStatus(400);
 	}
 	for (var i=0; i<storage.items.length; ++i) {
-		console.log("id: "+storage.items[i].id);
 		if (storage.items[i].id == req.params.id) {
 			storage.items.splice(i, 1);
 			res.status(204).end();
