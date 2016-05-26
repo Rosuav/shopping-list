@@ -63,7 +63,8 @@ app.put('/items/:id', jsonParser, function(req, res) {
 		}
 	}
 
-	var item = storage.add(req.body.name);
+	var item = {name: req.body.name, id: +req.params.id};
+	storage.items.push(item);
 	res.status(201).json(item);
 });
 
