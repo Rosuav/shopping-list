@@ -35,4 +35,20 @@ app.post('/items', jsonParser, function(req, res) {
 	res.status(201).json(item);
 });
 
+app.delete('/items/:id', jsonParser, function(req, res) {
+	if (!req.body) {
+		return res.sendStatus(400);
+	}
+	for (var i=0; i<storage.items.length; ++i) {
+		console.log("id: "+storage.items[i].id);
+		if (storage.items[i].id == req.params.id) {
+			storage.items.splice(i, 1);
+			res.status(204).end();
+			return;
+		}
+	}
+
+	res.status(404).json({error: "No item with that id found"});
+});
+
 app.listen(process.env.PORT || 8800);
